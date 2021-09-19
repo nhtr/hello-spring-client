@@ -4,21 +4,9 @@ import * as LayoutActions from './layout.action';
 
 export const reducer = createReducer(
   initialState,
-  on(LayoutActions.loadMenu, (state) => ({
-    ...adapter.setAll([
-      {id: '1', label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: '/'},
-      {
-        id: '2', label: 'UI Kit', icon: 'pi pi-fw pi-star', routerLink: '/ui-kit', isHasChildren: true,
-        items: [
-          {id: '3', label: 'Ui-Table', icon: 'pi pi-fw pi-id-card', routerLink: '/ui-kit/ui-table'},
-          {id: '4', label: 'Ui-Input', icon: 'pi pi-fw pi-check-square', routerLink: '/ui-kit/ui-input'}
-        ]
-      },
-      {
-        id: '5', label: 'Knowledge', icon: 'pi pi-fw pi-search', routerLink: '/knowledge', isHasChildren: false,
-      }
-    ], state),
-    loaded: true,
+  on(LayoutActions.loadMenuSuccess, (state, {menu}) => ({
+    ...adapter.setAll(menu, state),
+    loading: false,
     loggedIn: true,
     isInactiveMenuDesktop: false
   })),
@@ -26,7 +14,7 @@ export const reducer = createReducer(
     ...adapter.setAll([
       {id: '1', label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: '/'}
     ], state),
-    loaded: true,
+    loading: false,
     loggedIn: false,
     isInactiveMenuDesktop: true
   })),

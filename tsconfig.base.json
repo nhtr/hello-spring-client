@@ -16,6 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@hello-spring-client/data-access": ["libs/data-access/src/index.ts"],
+      "@hello-spring-client/data-generated": [
+        "libs/data-generated/src/index.ts"
+      ],
       "@hello-spring-client/feature/home": ["libs/feature/home/src/index.ts"],
       "@hello-spring-client/feature/knowledge": [
         "libs/feature/knowledge/src/index.ts"

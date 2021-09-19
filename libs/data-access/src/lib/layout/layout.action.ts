@@ -1,6 +1,12 @@
 import {createAction, props} from '@ngrx/store';
+import {NavItem} from "@hello-spring-client/shared/ui/nav-item";
 
 export const loadMenu = createAction('[Layout] Load Menu');
+
+export const loadMenuSuccess = createAction(
+  '[Layout] Load Menu Success',
+  props<{ menu: NavItem[]} >()
+);
 
 export const loadGuestMenu = createAction('[Layout] Load Guest Menu');
 

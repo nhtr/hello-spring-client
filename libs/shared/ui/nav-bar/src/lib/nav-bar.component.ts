@@ -10,6 +10,6 @@ import {NavItem} from "@hello-spring-client/shared/ui/nav-item";
 })
 export class NavBarComponent  {
 
-  @Input() items: NavItem[] = [];
+  @Input() items: NavItem[] | null = [];
 
 }

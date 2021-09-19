@@ -18,9 +18,17 @@
   <div class="layout-sidebar" (click)="doMenuClick()">
     <div class="layout-sidebar-logo"></div>
     <div class="layout-menu-container">
-      <ng-container *ngIf="(navList$ | async) as navList">
-        <hsc-nav-bar [items]="navList"></hsc-nav-bar>
+
+      <ng-container *ngIf="isLoadingMenu$ | async; else showMenu">
+        <div class="p-p-3">
+          <p-skeleton styleClass="p-mb-1" height="3rem"></p-skeleton>
+          <p-skeleton styleClass="p-mb-1" height="3rem"></p-skeleton>
+          <p-skeleton height="3rem"></p-skeleton>
+        </div>
       </ng-container>
+      <ng-template #showMenu>
+        <hsc-nav-bar [items]="navList$ | async"></hsc-nav-bar>
+      </ng-template>
     </div>
   </div>
 </div>

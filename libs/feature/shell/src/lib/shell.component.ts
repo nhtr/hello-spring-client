@@ -11,6 +11,7 @@ export class ShellComponent implements OnInit {
   navList$ = this.facade.navItems$;
   staticMenuDesktopInactive$ = this.facade.isMenuDesktopInactive$;
   staticMenuMobileActive$ = this.facade.isMenuMobileActive$;
+  isLoadingMenu$ = this.facade.isLoadingMenu$;
 
   constructor(
     private facade: LayoutFacade

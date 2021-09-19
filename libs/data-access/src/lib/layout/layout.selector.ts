@@ -21,3 +21,8 @@ export const selectStateMenuDesktopInactive = createSelector(
   selectLayoutFeature,
   ({ isInactiveMenuDesktop }) => isInactiveMenuDesktop
 );
+
+export const selectStateLoadingMenu = createSelector(
+  selectLayoutFeature,
+  ({ loading }) => loading
+);

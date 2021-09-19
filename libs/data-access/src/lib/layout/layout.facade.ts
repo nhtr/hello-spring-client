@@ -8,6 +8,7 @@ export class LayoutFacade {
   navItems$ = this.store.pipe(select(fromLayout.selectAll));
   isMenuDesktopInactive$ = this.store.pipe(select(fromLayout.selectStateMenuDesktopInactive));
   isMenuMobileActive$ = this.store.pipe(select(fromLayout.selectStateMenuMobileActive));
+  isLoadingMenu$ = this.store.pipe(select(fromLayout.selectStateLoadingMenu));
   constructor(private store: Store) {
   }
 

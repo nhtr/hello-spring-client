@@ -7,8 +7,10 @@ import { StoreModule } from '@ngrx/store';
 
 import { ShellComponent } from './shell.component';
 import { HttpClientModule } from '@angular/common/http';
-import {layoutFeatureKey, layoutReducer} from "@hello-spring-client/data-access";
+import {LayoutEffect, layoutFeatureKey, layoutReducer} from "@hello-spring-client/data-access";
 import {NavBarModule} from "@hello-spring-client/shared/ui/nav-bar";
+import {EffectsModule} from "@ngrx/effects";
+import {SkeletonModule} from "primeng/skeleton";
 
 export const shellRoutes: Route[] = [
   {
@@ -44,14 +46,16 @@ const rootReducers = {
 };
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BrowserAnimationsModule,
-    RouterModule.forRoot(shellRoutes),
-    NavBarModule,
-    StoreModule.forRoot(rootReducers),
-    HttpClientModule
-  ],
+    imports: [
+        CommonModule,
+        BrowserAnimationsModule,
+        RouterModule.forRoot(shellRoutes),
+        NavBarModule,
+        StoreModule.forRoot(rootReducers),
+        EffectsModule.forRoot([LayoutEffect]),
+        HttpClientModule,
+        SkeletonModule
+    ],
   declarations: [
     ShellComponent
   ],
