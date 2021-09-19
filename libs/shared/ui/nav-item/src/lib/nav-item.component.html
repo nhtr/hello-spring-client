@@ -1,0 +1,26 @@
+<!--Has Child-->
+<ng-container *ngIf="item.isHasChildren; else noChildren">
+  <a (click)="doItemClick($event)" [attr.tabindex]="0">
+    <i class="layout-menuitem-icon {{item.icon}}"></i>
+    <span>{{item?.label}}</span>
+    <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+  </a>
+  <!--Children-->
+  <ul [@children]="active ? 'visibleAnimated' : 'hiddenAnimated'">
+    <ng-template ngFor let-child [ngForOf]="item.items">
+      <hsc-nav-item [item]="child"></hsc-nav-item>
+    </ng-template>
+  </ul>
+</ng-container>
+
+<!--No Child-->
+<ng-template #noChildren>
+  <a (click)="doItemClick($event)"
+     [routerLink]="item.routerLink" routerLinkActive="active-menuitem-routerlink"
+     [routerLinkActiveOptions]="{exact: true}"
+     [attr.tabindex]="0">
+    <i class="layout-menuitem-icon {{item.icon}}"></i>
+    <span>{{item.label}}</span>
+  </a>
+</ng-template>
+

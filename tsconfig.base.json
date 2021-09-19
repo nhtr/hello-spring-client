@@ -14,7 +14,26 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@hello-spring-client/data-access": ["libs/data-access/src/index.ts"],
+      "@hello-spring-client/feature/home": ["libs/feature/home/src/index.ts"],
+      "@hello-spring-client/feature/knowledge": [
+        "libs/feature/knowledge/src/index.ts"
+      ],
+      "@hello-spring-client/feature/public": [
+        "libs/feature/public/src/index.ts"
+      ],
+      "@hello-spring-client/feature/shell": ["libs/feature/shell/src/index.ts"],
+      "@hello-spring-client/feature/ui-kit": [
+        "libs/feature/ui-kit/src/index.ts"
+      ],
+      "@hello-spring-client/shared/ui/nav-bar": [
+        "libs/shared/ui/nav-bar/src/index.ts"
+      ],
+      "@hello-spring-client/shared/ui/nav-item": [
+        "libs/shared/ui/nav-item/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

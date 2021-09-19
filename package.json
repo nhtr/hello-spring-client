@@ -7,11 +7,16 @@
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "sass-theme-light": "node-sass scss/theme/material/material-light/standard/indigo/theme-light.scss -o apps/web-portal/src/assets --output-style=compressed --no-source-map",
+    "sass-theme-dark": "node-sass scss/theme/material/material-dark/standard/indigo/theme-dark.scss -o apps/web-portal/src/assets --output-style=compressed --no-source-map",
+    "sass-layout-light": "node-sass scss/layout/layout-light.scss -o apps/web-portal/src/assets --output-style=compressed --no-source-map",
+    "sass-layout-dark": "node-sass scss/layout/layout-dark.scss -o apps/web-portal/src/assets --output-style=compressed --no-source-map"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^12.2.0",
+    "@angular/cdk": "^12.2.6",
     "@angular/common": "^12.2.0",
     "@angular/compiler": "^12.2.0",
     "@angular/core": "^12.2.0",
@@ -19,7 +24,13 @@
     "@angular/platform-browser": "^12.2.0",
     "@angular/platform-browser-dynamic": "^12.2.0",
     "@angular/router": "^12.2.0",
+    "@ngrx/component-store": "^12.4.0",
+    "@ngrx/entity": "^12.4.0",
+    "@ngrx/store": "^12.4.0",
     "@nrwl/angular": "12.9.0",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primeng": "^12.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

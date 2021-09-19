@@ -1,11 +1,211 @@
 {
   "version": 1,
   "projects": {
+    "data-access": {
+      "projectType": "library",
+      "root": "libs/data-access",
+      "sourceRoot": "libs/data-access/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/data-access"],
+          "options": {
+            "jestConfig": "libs/data-access/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/data-access/src/**/*.ts",
+              "libs/data-access/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "feature-home": {
+      "projectType": "library",
+      "root": "libs/feature/home",
+      "sourceRoot": "libs/feature/home/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/feature/home"],
+          "options": {
+            "jestConfig": "libs/feature/home/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/feature/home/src/**/*.ts",
+              "libs/feature/home/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "feature-knowledge": {
+      "projectType": "library",
+      "root": "libs/feature/knowledge",
+      "sourceRoot": "libs/feature/knowledge/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/feature/knowledge"],
+          "options": {
+            "jestConfig": "libs/feature/knowledge/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/feature/knowledge/src/**/*.ts",
+              "libs/feature/knowledge/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "feature-public": {
+      "projectType": "library",
+      "root": "libs/feature/public",
+      "sourceRoot": "libs/feature/public/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/feature/public"],
+          "options": {
+            "jestConfig": "libs/feature/public/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/feature/public/src/**/*.ts",
+              "libs/feature/public/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "feature-shell": {
+      "projectType": "library",
+      "root": "libs/feature/shell",
+      "sourceRoot": "libs/feature/shell/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/feature/shell"],
+          "options": {
+            "jestConfig": "libs/feature/shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/feature/shell/src/**/*.ts",
+              "libs/feature/shell/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "feature-ui-kit": {
+      "projectType": "library",
+      "root": "libs/feature/ui-kit",
+      "sourceRoot": "libs/feature/ui-kit/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/feature/ui-kit"],
+          "options": {
+            "jestConfig": "libs/feature/ui-kit/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/feature/ui-kit/src/**/*.ts",
+              "libs/feature/ui-kit/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shared-ui-nav-bar": {
+      "projectType": "library",
+      "root": "libs/shared/ui/nav-bar",
+      "sourceRoot": "libs/shared/ui/nav-bar/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/nav-bar"],
+          "options": {
+            "jestConfig": "libs/shared/ui/nav-bar/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/nav-bar/src/**/*.ts",
+              "libs/shared/ui/nav-bar/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shared-ui-nav-item": {
+      "projectType": "library",
+      "root": "libs/shared/ui/nav-item",
+      "sourceRoot": "libs/shared/ui/nav-item/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/nav-item"],
+          "options": {
+            "jestConfig": "libs/shared/ui/nav-item/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/nav-item/src/**/*.ts",
+              "libs/shared/ui/nav-item/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "web-portal": {
       "projectType": "application",
       "root": "apps/web-portal",
       "sourceRoot": "apps/web-portal/src",
-      "prefix": "hello-spring-client",
+      "prefix": "hsc",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -21,7 +221,12 @@
               "apps/web-portal/src/favicon.ico",
               "apps/web-portal/src/assets"
             ],
-            "styles": ["apps/web-portal/src/styles.scss"],
+            "styles": [
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeflex/primeflex.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "apps/web-portal/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {

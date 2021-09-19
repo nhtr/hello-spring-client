@@ -1,0 +1,44 @@
+<p-card header="Example Form">
+  <form [formGroup]="profileForm">
+    <div class="p-fluid p-grid">
+      <div class="p-lg-4 p-md-6 p-col-12 p-field">
+        <label for="user-id">Full Name</label>
+        <input pInputText id="user-id" formControlName="name"/>
+      </div>
+
+      <div class="p-lg-4 p-md-6 p-col-12 p-field">
+        <label for="user-email">Email Address</label>
+        <input pInputText id="user-email" formControlName="email"/>
+      </div>
+
+      <div class="p-lg-4 p-md-6 p-col-12 p-field">
+        <label for="user-birth-day">Birth Day</label>
+        <p-calendar formControlName="birthDay" [showIcon]="true" inputId="user-birth-day"></p-calendar>
+      </div>
+    </div>
+
+    <div class="p-fluid p-grid">
+      <div class="p-lg-4 p-md-6 p-col-12 p-field">
+        <label for="user-gender">Gender</label>
+        <input pInputText id="user-gender" formControlName="gender"/>
+      </div>
+
+      <div class="p-lg-4 p-md-6 p-col-12 p-field">
+        <label for="user-company">Company</label>
+        <input pInputText id="user-company" formControlName="company"/>
+      </div>
+
+      <div class="p-lg-4 p-md-6 p-col-12 p-field">
+        <label for="user-position">Position</label>
+        <input pInputText id="user-position" formControlName="position"/>
+      </div>
+    </div>
+
+    <div class="p-fluid p-grid">
+      <div class="p-col-12 p-field">
+        <label for="user-address">Address</label>
+        <textarea pInputText id="user-address" formControlName="address"></textarea>
+      </div>
+    </div>
+  </form>
+</p-card>

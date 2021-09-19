@@ -27,6 +27,30 @@
     ]
   },
   "projects": {
+    "data-access": {
+      "tags": []
+    },
+    "feature-home": {
+      "tags": []
+    },
+    "feature-knowledge": {
+      "tags": []
+    },
+    "feature-public": {
+      "tags": []
+    },
+    "feature-shell": {
+      "tags": []
+    },
+    "feature-ui-kit": {
+      "tags": []
+    },
+    "shared-ui-nav-bar": {
+      "tags": []
+    },
+    "shared-ui-nav-item": {
+      "tags": []
+    },
     "web-portal": {
       "tags": []
     },

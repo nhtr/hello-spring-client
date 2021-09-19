@@ -1,0 +1,26 @@
+<div class="layout-wrapper layout-static" (click)="doLayoutClick()"
+     [ngClass]="{'layout-mobile-active': (staticMenuMobileActive$ | async),
+     'layout-static-inactive': (staticMenuDesktopInactive$ | async)}">
+
+  <div class="layout-main">
+    <div class="layout-topbar">
+      <a href="#" id="layout-menu-btn" class="menu-btn" (click)="doToggleMenuLeft($event);">
+        <i class="pi pi-bars"></i>
+      </a>
+      <div class="layout-topbar-menu-wrapper"></div>
+    </div>
+    <div class="layout-content">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="layout-main-mask"></div>
+  </div>
+
+  <div class="layout-sidebar" (click)="doMenuClick()">
+    <div class="layout-sidebar-logo"></div>
+    <div class="layout-menu-container">
+      <ng-container *ngIf="(navList$ | async) as navList">
+        <hsc-nav-bar [items]="navList"></hsc-nav-bar>
+      </ng-container>
+    </div>
+  </div>
+</div>
