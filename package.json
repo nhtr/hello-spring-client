@@ -7,11 +7,7 @@
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test",
-    "sass-theme-light": "node-sass scss/theme/material/material-light/standard/indigo/theme-light.scss -o apps/web-portal/src/assets --output-style=compressed --no-source-map",
-    "sass-theme-dark": "node-sass scss/theme/material/material-dark/standard/indigo/theme-dark.scss -o apps/web-portal/src/assets --output-style=compressed --no-source-map",
-    "sass-layout-light": "node-sass scss/layout/layout-light.scss -o apps/web-portal/src/assets --output-style=compressed --no-source-map",
-    "sass-layout-dark": "node-sass scss/layout/layout-dark.scss -o apps/web-portal/src/assets --output-style=compressed --no-source-map"
+    "test": "nx test"
   },
   "private": true,
   "dependencies": {
