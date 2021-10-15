@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {FeatureDto, FeatureService} from "@hello-spring-client/data-generated";
+import {FeatureGroupDto, FeatureService, GroupMenuDto} from "@hello-spring-client/data-generated";
 import * as LayoutAction from './layout.action';
 import {delay, map, switchMap} from "rxjs/operators";
 import { NavItem } from "@hello-spring-client/shared/ui/nav-item";
@@ -9,25 +9,36 @@ import { NavItem } from "@hello-spring-client/shared/ui/nav-item";
 export class LayoutEffect {
   loadMenu$ = createEffect(() => this.action$.pipe(
     ofType(LayoutAction.loadMenu),
-    switchMap(() => this.featureService.getFeatures().pipe(
+    switchMap(() => this.featureService.getMenu().pipe(
       delay(1000),
       map((res) => {
+        const groupArr: GroupMenuDto[] = [];
+        const featureHaveGroup: FeatureGroupDto[] = [];
+        const featureHaveNotGroup: FeatureGroupDto[] = [];
         const menu: NavItem[] = [];
         if (res.context && Array.isArray(res.context)) {
-          const cloneFeature = [...res.context];
-          let removedCount = 0;
           for (let i = 0; i < res.context.length; i++) {
             const item = res.context[i];
-            if (item.showInMenu && item.parent === 0) {
-              cloneFeature.splice(i - removedCount, 1);
-              removedCount++;
-              if (item.hasChildren) {
-                const children = cloneFeature.filter(x => x.parent === item.id).map(x => this.featureToNav(x));
-                menu.push(this.featureToNav(item, children));
-              } else {
-                menu.push(this.featureToNav(item));
+            if (item.groupMenu) {
+              if (groupArr.findIndex((gr) => gr.id === item.groupMenu?.id) === -1) {
+                groupArr.push(item.groupMenu);
+                menu.push(this.groupToNav(item.groupMenu));
               }
+              featureHaveGroup.push(item);
+            } else {
+              featureHaveNotGroup.push(item);
             }
+          }
+
+          for (let i = 0; i < groupArr.length; i++) {
+            const item = groupArr[i];
+            menu[i].items = featureHaveGroup
+              .filter(x => x.groupMenu?.id === item.id && x.showInMenu)
+              .map(x => this.featureToNav(x));
+          }
+
+          for (let i = 0; i < featureHaveNotGroup.length; i++) {
+            menu.push(this.featureToNav(featureHaveNotGroup[i]));
           }
         }
         return LayoutAction.loadMenuSuccess({menu});
@@ -40,14 +51,25 @@ export class LayoutEffect {
     private featureService: FeatureService
   ) {}
 
-  featureToNav(feature: FeatureDto, children?: NavItem[]): NavItem {
+  featureToNav(feature: FeatureGroupDto, children?: NavItem[]): NavItem {
     return {
-      id: `${feature.id}`,
+      id: `feature${feature.id}`,
       label: feature.label,
       icon: feature.icon,
       routerLink: feature.routerLink,
       isHasChildren: feature.hasChildren,
       items: children
+    }
+  }
+
+  groupToNav(group: GroupMenuDto) {
+    return {
+      id: `group${group.id}`,
+      label: group.label,
+      icon: group.icon,
+      routerLink: undefined,
+      isHasChildren: true,
+      items: []
     }
   }
 }

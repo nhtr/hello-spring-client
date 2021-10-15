@@ -51,6 +51,31 @@
         }
       }
     },
+    "data-http": {
+      "projectType": "library",
+      "root": "libs/data-http",
+      "sourceRoot": "libs/data-http/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/data-http"],
+          "options": {
+            "jestConfig": "libs/data-http/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/data-http/src/**/*.ts",
+              "libs/data-http/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "feature-home": {
       "projectType": "library",
       "root": "libs/feature/home",
@@ -151,6 +176,31 @@
         }
       }
     },
+    "feature-system-config": {
+      "projectType": "library",
+      "root": "libs/feature/system-config",
+      "sourceRoot": "libs/feature/system-config/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/feature/system-config"],
+          "options": {
+            "jestConfig": "libs/feature/system-config/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/feature/system-config/src/**/*.ts",
+              "libs/feature/system-config/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "feature-ui-kit": {
       "projectType": "library",
       "root": "libs/feature/ui-kit",
@@ -221,6 +271,31 @@
             "lintFilePatterns": [
               "libs/shared/ui/nav-item/src/**/*.ts",
               "libs/shared/ui/nav-item/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "util-auth": {
+      "projectType": "library",
+      "root": "libs/util/auth",
+      "sourceRoot": "libs/util/auth/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/auth"],
+          "options": {
+            "jestConfig": "libs/util/auth/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/util/auth/src/**/*.ts",
+              "libs/util/auth/src/**/*.html"
             ]
           }
         }

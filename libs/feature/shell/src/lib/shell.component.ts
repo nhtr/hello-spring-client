@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {LayoutFacade} from "@hello-spring-client/data-access";
+import {AuthStore, LayoutFacade} from "@hello-spring-client/data-access";
+import {filter, take, tap} from "rxjs/operators";
 
 @Component({
   selector: 'hsc-shell',
@@ -14,11 +15,17 @@ export class ShellComponent implements OnInit {
   isLoadingMenu$ = this.facade.isLoadingMenu$;
 
   constructor(
+    private auth: AuthStore,
     private facade: LayoutFacade
   ) {}
 
   ngOnInit(): void {
-    this.facade.loadMenu();
+    this.auth.login();
+    this.auth.tokenReceived$.pipe(
+      filter((token) => !!token),
+      take(1),
+      tap(() => this.facade.loadMenu())
+    ).subscribe();
   }
 
   doLayoutClick(): void {

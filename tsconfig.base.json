@@ -19,6 +19,7 @@
       "@hello-spring-client/data-generated": [
         "libs/data-generated/src/index.ts"
       ],
+      "@hello-spring-client/data-http": ["libs/data-http/src/index.ts"],
       "@hello-spring-client/feature/home": ["libs/feature/home/src/index.ts"],
       "@hello-spring-client/feature/knowledge": [
         "libs/feature/knowledge/src/index.ts"
@@ -27,6 +28,9 @@
         "libs/feature/public/src/index.ts"
       ],
       "@hello-spring-client/feature/shell": ["libs/feature/shell/src/index.ts"],
+      "@hello-spring-client/feature/system-config": [
+        "libs/feature/system-config/src/index.ts"
+      ],
       "@hello-spring-client/feature/ui-kit": [
         "libs/feature/ui-kit/src/index.ts"
       ],
@@ -35,7 +39,8 @@
       ],
       "@hello-spring-client/shared/ui/nav-item": [
         "libs/shared/ui/nav-item/src/index.ts"
-      ]
+      ],
+      "@hello-spring-client/util/auth": ["libs/util/auth/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

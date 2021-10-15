@@ -18,6 +18,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { FeatureResponse } from '../model/models';
+import { MenuResponse } from '../model/models';
 
 import { ACCOUNT_BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { AccountConfiguration }                                     from '../configuration';
@@ -115,7 +116,49 @@ export class FeatureService {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<FeatureResponse>(`${this.configuration.basePath}/api/feature`,
+        return this.httpClient.get<FeatureResponse>(`${this.configuration.basePath}/api/feature/list`,
+            {
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * return menu by user logged in
+     * return menu by user logged in
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getMenu(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<MenuResponse>;
+    public getMenu(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<MenuResponse>>;
+    public getMenu(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<MenuResponse>>;
+    public getMenu(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.get<MenuResponse>(`${this.configuration.basePath}/api/feature/menu`,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,

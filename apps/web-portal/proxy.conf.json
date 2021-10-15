@@ -1,6 +1,6 @@
 {
-  "/account-service": {
-    "target": "http://localhost:9091",
+  "/gateway": {
+    "target": "http://localhost:9090",
     "secure": false,
     "changeOrigin": false,
     "logLevel": "debug"

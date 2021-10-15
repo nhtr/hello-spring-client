@@ -2,6 +2,8 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { AccountConfiguration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
+import { FeatureService } from './api/feature.service';
+
 @NgModule({
   imports:      [],
   declarations: [],

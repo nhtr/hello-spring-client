@@ -11,14 +11,10 @@
  */
 
 
-export interface FeatureDto { 
+export interface GroupMenuDto { 
     id?: number;
     label?: string;
     icon?: string;
-    routerLink?: string;
-    hasChildren?: boolean;
-    parent?: number;
-    showInMenu?: boolean;
     orderValue?: number;
 }
 

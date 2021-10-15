@@ -9,9 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { GroupMenuDto } from './group-menu-dto';
 
 
-export interface FeatureDto { 
+export interface FeatureGroupDto { 
     id?: number;
     label?: string;
     icon?: string;
@@ -20,5 +21,6 @@ export interface FeatureDto {
     parent?: number;
     showInMenu?: boolean;
     orderValue?: number;
+    groupMenu?: GroupMenuDto;
 }
 

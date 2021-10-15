@@ -28,6 +28,10 @@ export const shellRoutes: Route[] = [
       {
         path: 'knowledge',
         loadChildren: () => import('@hello-spring-client/feature/knowledge').then(m => m.KnowledgeModule)
+      },
+      {
+        path: 'system-config',
+        loadChildren: () => import('@hello-spring-client/feature/system-config').then(m => m.SystemConfigModule)
       }
     ]
   },

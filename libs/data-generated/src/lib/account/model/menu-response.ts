@@ -9,16 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { FeatureGroupDto } from './feature-group-dto';
+import { ApiResult } from './api-result';
 
 
-export interface FeatureDto { 
-    id?: number;
-    label?: string;
-    icon?: string;
-    routerLink?: string;
-    hasChildren?: boolean;
-    parent?: number;
-    showInMenu?: boolean;
-    orderValue?: number;
+export interface MenuResponse { 
+    result?: ApiResult;
+    context?: Array<FeatureGroupDto>;
 }
 

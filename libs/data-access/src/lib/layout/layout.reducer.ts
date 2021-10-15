@@ -5,7 +5,10 @@ import * as LayoutActions from './layout.action';
 export const reducer = createReducer(
   initialState,
   on(LayoutActions.loadMenuSuccess, (state, {menu}) => ({
-    ...adapter.setAll(menu, state),
+    ...adapter.setAll([
+      {id: '1', label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: '/'},
+      ...menu
+    ], state),
     loading: false,
     loggedIn: true,
     isInactiveMenuDesktop: false

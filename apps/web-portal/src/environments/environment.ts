@@ -2,11 +2,11 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const baseURL = ''
+export const baseURL = '/gateway'
 
 export const environment = {
   production: false,
-  accountUrl: baseURL + '/account-service'
+  accountUrl: baseURL + '/account'
 };
 
 /*
