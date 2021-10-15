@@ -36,7 +36,9 @@ export class AuthStore extends ComponentStore<AuthState>{
         this.route.queryParams.pipe(
           take(1),
           tap((params) => {
-            if (!params['code']) {
+            if (params['error']) {
+              console.error(params['error'], params['error_description']);
+            } else if (!params['code']) {
               window.location.href = this.authService.genAuthUrl();
             }
           }),

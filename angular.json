@@ -327,7 +327,10 @@
               "node_modules/primeng/resources/primeng.min.css",
               "apps/web-portal/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "crypto-js"
+            ]
           },
           "configurations": {
             "production": {

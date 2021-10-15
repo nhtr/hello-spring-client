@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpBackend, HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpBackend, HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {enc, SHA256} from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -18,29 +19,48 @@ export class AuthService {
   private readonly TOKEN_KEY = 'hsc_token';
   private readonly REFRESH_TOKEN_KEY = 'hsc_refresh_token';
   private readonly FIRST_REFRESH_TOKEN_KEY = 'hsc_frt';
+  private readonly CODE_VERIFIER_KEY = 'hsc_code_verifier';
+  private readonly isPKCESupport = true;
+  private readonly codeChallengeMethod = 'S256';
 
   constructor(handler: HttpBackend) {
     this.http = new HttpClient(handler);
   }
 
-  genAuthUrl(): string {
-    const queryParamsObject = {
+  genAuthUrl() {
+    let queryParamsObject: {[key: string]: string} = {
       client_id: this.clientId,
       response_type: 'code',
       scope: this.scopes,
       redirect_uri: this.redirectUri
     };
+    if (this.isPKCESupport) {
+      const now = new Date();
+      const stateValue = this.generateState();
+      const codeVerifier = this.generateCodeVerifier();
+      const codeChallenge = this.generateCodeChallenge(codeVerifier);
+      this.setCookie(this.CODE_VERIFIER_KEY, codeVerifier, new Date(now.getTime() + 12000));
+      queryParamsObject = {
+        ...queryParamsObject,
+        state: stateValue,
+        code_challenge_method: this.codeChallengeMethod,
+        code_challenge: codeChallenge
+      }
+    }
     const params = new URLSearchParams();
     Object.entries(queryParamsObject).forEach(([key, value]) => params.append(key, value));
     return `${this.authUrl}?${params.toString()}`;
   }
 
   requestAccessToken(code: string): Observable<any> {
-    const body = new HttpParams()
+    let body = new HttpParams()
       .append('grant_type', 'authorization_code')
       .append('redirect_uri', this.redirectUri)
       .append('code', code)
       .append('client_id', this.clientId);
+    if (this.isPKCESupport) {
+      body = body.append('code_verifier', this.getCookie(this.CODE_VERIFIER_KEY));
+    }
 
     const headers = {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -138,4 +158,38 @@ export class AuthService {
       document.cookie = cName + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     }
   }
+
+  private generateCodeChallenge(codeVerifier: string): string {
+    const hashBuffer = SHA256(codeVerifier).toString(enc.Base64);
+    return hashBuffer
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '');
+  }
+
+  private generateCodeVerifier(): string {
+    const randomByteArray = new Uint8Array(32);
+    window.crypto.getRandomValues(randomByteArray);
+    return this.base64UrlEncode(randomByteArray);
+  };
+
+  private generateState(): string {
+    return this.randomString(48);
+  };
+
+  private randomString(len: number): string {
+    const arr = new Uint8Array(len);
+    window.crypto.getRandomValues(arr);
+    const str = this.base64UrlEncode(arr);
+    return str.substring(0, len);
+  }
+
+  private base64UrlEncode(byteArray: any): string {
+    const stringCode = String.fromCharCode.apply(null, byteArray);
+    const base64Encoded = btoa(stringCode);
+    return base64Encoded
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '');
+  };
 }
