@@ -20,7 +20,7 @@ export class AuthService {
   private readonly REFRESH_TOKEN_KEY = 'hsc_refresh_token';
   private readonly FIRST_REFRESH_TOKEN_KEY = 'hsc_frt';
   private readonly CODE_VERIFIER_KEY = 'hsc_code_verifier';
-  private readonly isPKCESupport = true;
+  private readonly isPKCESupport = false;
   private readonly codeChallengeMethod = 'S256';
 
   constructor(handler: HttpBackend) {
