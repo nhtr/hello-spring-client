@@ -1,23 +1,26 @@
-import { Injectable } from '@angular/core';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { ActivatedRoute, Router } from '@angular/router';
-import { concatMap, filter, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
-import { iif, merge, Observable, of, timer } from 'rxjs';
-import { AuthService } from "@hello-spring-client/data-http";
+import {Injectable} from '@angular/core';
+import {ComponentStore, tapResponse} from '@ngrx/component-store';
+import {ActivatedRoute, Router} from '@angular/router';
+import {concatMap, filter, switchMap, switchMapTo, take, tap} from 'rxjs/operators';
+import {EMPTY, iif, merge, Observable, of, timer} from 'rxjs';
+import {AuthService, TokenResponse} from "@hello-spring-client/data-http";
 
 export interface AuthState {
   tokenReceived: string;
+  loggedIn: boolean;
 }
 
-@Injectable({ providedIn: 'root' })
-export class AuthStore extends ComponentStore<AuthState>{
+@Injectable({providedIn: 'root'})
+export class AuthStore extends ComponentStore<AuthState> {
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService
   ) {
-    super(<AuthState>{});
+    super(<AuthState>{
+      loggedIn: false
+    });
   }
 
   readonly tokenReceived$ = this.select((state) => state.tokenReceived);
@@ -29,7 +32,10 @@ export class AuthStore extends ComponentStore<AuthState>{
         merge(
           of('').pipe(
             take(1), // one time
-            tap(() => this.patchState({tokenReceived: this.authService.getToken()})) // notify user logged in by tokenReceived state
+            tap(() => this.patchState({
+              tokenReceived: this.authService.getToken(),
+              loggedIn: true
+            })) // notify user logged in by tokenReceived state
           ),
           this.timerRefreshToken() // call refresh token before access token expire, every 180000ms = 3minutes
         ),
@@ -44,7 +50,7 @@ export class AuthStore extends ComponentStore<AuthState>{
           }),
           filter((params) => !!params['code']),
           concatMap((params) => this.authService.requestAccessToken(params['code']).pipe(
-            tapResponse((res: any) => {
+            tapResponse((res) => {
               this.authService.setToken(res.access_token, res.expires_in); // save token to local storage
               this.authService.setRefreshToken(res.refresh_token, 1800); // save refresh token to local storage
               this.patchState({tokenReceived: res.access_token});
@@ -57,16 +63,17 @@ export class AuthStore extends ComponentStore<AuthState>{
     )
   ));
 
-  private timerRefreshToken(): Observable<any> {
-    return timer(this.authService.getFirstTimeRefreshToken(), 180000).pipe(
-      switchMap(() => this.authService.requestRefreshToken().pipe(
-        tap((res: any) => {
-          this.patchState({tokenReceived: res.access_token});
-          this.authService.setToken(res.access_token, res.expires_in);
-          this.authService.setRefreshToken(res.refresh_token, 1800);
-        })
-      ))
-    );
+  private timerRefreshToken(): Observable<TokenResponse> {
+    return iif(() => this.authService.isHasRefreshToken(),
+      timer(this.authService.getFirstTimeRefreshToken(), 180000).pipe(
+        switchMap(() => this.authService.requestRefreshToken().pipe(
+          tap((res) => {
+            this.patchState({tokenReceived: res.access_token});
+            this.authService.setToken(res.access_token, res.expires_in);
+            this.authService.setRefreshToken(res.refresh_token, 1800);
+          })
+        ))
+      ), EMPTY);
   }
 
 }

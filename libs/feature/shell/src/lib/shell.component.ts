@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AuthStore, LayoutFacade} from "@hello-spring-client/data-access";
 import {filter, take, tap} from "rxjs/operators";
 
 @Component({
   selector: 'hsc-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent implements OnInit {
 

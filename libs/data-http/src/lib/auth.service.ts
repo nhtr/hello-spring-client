@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpBackend, HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {enc, SHA256} from 'crypto-js';
+import {TokenResponse} from './model/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +53,7 @@ export class AuthService {
     return `${this.authUrl}?${params.toString()}`;
   }
 
-  requestAccessToken(code: string): Observable<any> {
+  requestAccessToken(code: string): Observable<TokenResponse> {
     let body = new HttpParams()
       .append('grant_type', 'authorization_code')
       .append('redirect_uri', this.redirectUri)
@@ -66,10 +67,10 @@ export class AuthService {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
     };
 
-    return this.http.post<any>(this.tokenUri, body, {headers});
+    return this.http.post<TokenResponse>(this.tokenUri, body, {headers});
   }
 
-  requestRefreshToken(): Observable<any> {
+  requestRefreshToken(): Observable<TokenResponse> {
     const body = new HttpParams()
       .append('grant_type', 'refresh_token')
       .append('refresh_token', this.getRefreshToken())
@@ -79,7 +80,7 @@ export class AuthService {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
     };
 
-    return this.http.post<any>(this.tokenUri, body, {headers});
+    return this.http.post<TokenResponse>(this.tokenUri, body, {headers});
   }
 
   isHasToken(): boolean {
@@ -133,7 +134,7 @@ export class AuthService {
     this.setCookie(this.REFRESH_TOKEN_KEY, token, dateExpire);
   }
 
-  setCookie(cName: string, cValue: any, expireDate: Date): void {
+  setCookie(cName: string, cValue: string, expireDate: Date): void {
     const expires = 'expires=' + expireDate.toUTCString();
     document.cookie = cName + '=' + cValue + ';' + expires + ';path=/';
   }
@@ -159,7 +160,7 @@ export class AuthService {
     }
   }
 
-  private generateCodeChallenge(codeVerifier: string): string {
+  generateCodeChallenge(codeVerifier: string): string {
     const hashBuffer = SHA256(codeVerifier).toString(enc.Base64);
     return hashBuffer
       .replace(/\+/g, '-')
@@ -167,25 +168,25 @@ export class AuthService {
       .replace(/=/g, '');
   }
 
-  private generateCodeVerifier(): string {
+  generateCodeVerifier(): string {
     const randomByteArray = new Uint8Array(32);
     window.crypto.getRandomValues(randomByteArray);
     return this.base64UrlEncode(randomByteArray);
   };
 
-  private generateState(): string {
+  generateState(): string {
     return this.randomString(48);
   };
 
-  private randomString(len: number): string {
+  randomString(len: number): string {
     const arr = new Uint8Array(len);
     window.crypto.getRandomValues(arr);
     const str = this.base64UrlEncode(arr);
     return str.substring(0, len);
   }
 
-  private base64UrlEncode(byteArray: any): string {
-    const stringCode = String.fromCharCode.apply(null, byteArray);
+  base64UrlEncode(byteArray: Uint8Array): string {
+    const stringCode = String.fromCharCode.apply(null, Array.from(byteArray));
     const base64Encoded = btoa(stringCode);
     return base64Encoded
       .replace(/\+/g, '-')

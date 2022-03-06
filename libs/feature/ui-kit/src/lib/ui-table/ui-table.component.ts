@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   selector: 'hsc-ui-table',
   templateUrl: './ui-table.component.html',
-  styleUrls: ['./ui-table.component.scss']
+  styleUrls: ['./ui-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UiTableComponent {
 
