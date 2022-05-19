@@ -7,7 +7,21 @@
       <a href="#" id="layout-menu-btn" class="menu-btn" (click)="doToggleMenuLeft($event);">
         <i class="pi pi-bars"></i>
       </a>
-      <div class="layout-topbar-menu-wrapper"></div>
+      <div class="layout-topbar-menu-wrapper">
+        <ng-container *ngIf="(isLoggedIn$ | async); else logInButton">
+          <ng-container *ngIf="profileVm$ | async as profileVm">
+            <ng-container *ngIf="profileVm.isLoaded">
+              <button type="button" pButton label="" class="p-button-outlined fix-label" (click)="menu.toggle($event)">
+                <span>{{profileVm.profile?.username}}</span>&nbsp;
+                <i class="pi pi-angle-down"></i>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="profileVm.isLoading">
+              <p-skeleton width="5rem" height="2rem"></p-skeleton>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
     </div>
     <div class="layout-content">
       <router-outlet></router-outlet>
@@ -32,3 +46,8 @@
     </div>
   </div>
 </div>
+
+<p-menu #menu [popup]="true" [model]="userItems"></p-menu>
+<ng-template #logInButton>
+  <button type="button" pButton label="Login" class="p-button-outlined fix-label" (click)="login()"></button>
+</ng-template>

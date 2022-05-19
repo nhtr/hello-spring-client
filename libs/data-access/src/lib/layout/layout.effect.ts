@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {FeatureGroupDto, FeatureService, GroupMenuDto} from "@hello-spring-client/data-generated";
 import * as LayoutAction from './layout.action';
-import {delay, map, switchMap} from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
 import { NavItem } from "@hello-spring-client/shared/ui/nav-item";
 
 @Injectable()
@@ -10,7 +10,6 @@ export class LayoutEffect {
   loadMenu$ = createEffect(() => this.action$.pipe(
     ofType(LayoutAction.loadMenu),
     switchMap(() => this.featureService.getMenu().pipe(
-      delay(1000),
       map((res) => {
         const groupArr: GroupMenuDto[] = [];
         const featureHaveGroup: FeatureGroupDto[] = [];
@@ -41,6 +40,37 @@ export class LayoutEffect {
             menu.push(this.featureToNav(featureHaveNotGroup[i]));
           }
         }
+        return LayoutAction.loadMenuSuccess({menu});
+      })
+    ))
+  ));
+
+  loadMenuTransformed$ = createEffect(() => this.action$.pipe(
+    ofType(LayoutAction.loadMenuTransformed),
+    switchMap(() => this.featureService.getMenuTransformed().pipe(
+      map((res) => {
+
+        const menu: NavItem[] = [];
+        if (res.context && Array.isArray(res.context.groups)) {
+          for (let i = 0; i < res.context.groups.length; i++) {
+            const item = res.context.groups[i];
+            if (item.features && item.features.length > 0) {
+              menu.push({
+                id: `group${item.id}`,
+                label: item.label,
+                icon: item.icon,
+                isHasChildren: true,
+                items: item.features as NavItem[]
+              });
+            }
+          }
+        }
+        if (res.context && Array.isArray(res.context.standalone)) {
+          for (let i = 0; i < res.context.standalone.length; i++) {
+            menu.push(res.context.standalone[i] as NavItem);
+          }
+        }
+
         return LayoutAction.loadMenuSuccess({menu});
       })
     ))

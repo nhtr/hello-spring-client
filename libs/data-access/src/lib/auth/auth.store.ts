@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {ComponentStore, tapResponse} from '@ngrx/component-store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {concatMap, filter, switchMap, switchMapTo, take, tap} from 'rxjs/operators';
-import {EMPTY, iif, merge, Observable, of, timer} from 'rxjs';
+import {concatMap, filter, finalize, switchMap, switchMapTo, take, takeUntil, tap} from 'rxjs/operators';
+import {EMPTY, iif, Observable, Subject, timer} from 'rxjs';
 import {AuthService, TokenResponse} from "@hello-spring-client/data-http";
+import {LogoutRequest, ProfileService} from "@hello-spring-client/data-generated";
 
 export interface AuthState {
   tokenReceived: string;
@@ -12,11 +13,12 @@ export interface AuthState {
 
 @Injectable({providedIn: 'root'})
 export class AuthStore extends ComponentStore<AuthState> {
-
+  logoutSubject: Subject<unknown> = new Subject<unknown>();
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private profileService: ProfileService
   ) {
     super(<AuthState>{
       loggedIn: false
@@ -24,21 +26,13 @@ export class AuthStore extends ComponentStore<AuthState> {
   }
 
   readonly tokenReceived$ = this.select((state) => state.tokenReceived);
+  readonly loggedIn$ = this.select((state) => state.loggedIn);
 
   readonly login = this.effect((trigger$) => trigger$.pipe(
     switchMapTo(
       iif(
-        () => this.authService.isHasToken(),
-        merge(
-          of('').pipe(
-            take(1), // one time
-            tap(() => this.patchState({
-              tokenReceived: this.authService.getToken(),
-              loggedIn: true
-            })) // notify user logged in by tokenReceived state
-          ),
-          this.timerRefreshToken() // call refresh token before access token expire, every 180000ms = 3minutes
-        ),
+        () => this.authService.isHasRefreshToken(),
+        this.timerRefreshToken(true),
         this.route.queryParams.pipe(
           take(1),
           tap((params) => {
@@ -51,9 +45,7 @@ export class AuthStore extends ComponentStore<AuthState> {
           filter((params) => !!params['code']),
           concatMap((params) => this.authService.requestAccessToken(params['code']).pipe(
             tapResponse((res) => {
-              this.authService.setToken(res.access_token, res.expires_in); // save token to local storage
-              this.authService.setRefreshToken(res.refresh_token, 1800); // save refresh token to local storage
-              this.patchState({tokenReceived: res.access_token});
+              this.logInSuccess(res);
               void this.router.navigate([]); // reload
             }, console.error),
             concatMap(() => this.timerRefreshToken())
@@ -63,17 +55,35 @@ export class AuthStore extends ComponentStore<AuthState> {
     )
   ));
 
-  private timerRefreshToken(): Observable<TokenResponse> {
+  readonly logout = this.effect((request$: Observable<LogoutRequest>) => request$.pipe(
+    switchMap((request) => this.profileService.postUserLogout(request).pipe(
+      finalize(() => {
+        this.logoutSubject.next();
+        this.logoutSubject.complete();
+        this.authService.clearToken();
+        this.patchState({loggedIn: false});
+        void this.router.navigate(['']);
+      })
+    )),
+  ));
+
+  private timerRefreshToken(immediate?: boolean): Observable<TokenResponse> {
     return iif(() => this.authService.isHasRefreshToken(),
-      timer(this.authService.getFirstTimeRefreshToken(), 180000).pipe(
+      timer(immediate ? 0 : this.authService.getFirstTimeRefreshToken(), 180000).pipe(
+        takeUntil(this.logoutSubject),
         switchMap(() => this.authService.requestRefreshToken().pipe(
-          tap((res) => {
-            this.patchState({tokenReceived: res.access_token});
-            this.authService.setToken(res.access_token, res.expires_in);
-            this.authService.setRefreshToken(res.refresh_token, 1800);
+          tapResponse((res) => this.logInSuccess(res), err => {
+            console.error(err);
+            this.authService.clearToken();
           })
         ))
       ), EMPTY);
+  }
+
+  private logInSuccess(res: TokenResponse) {
+    this.authService.setToken(res.access_token, res.expires_in);
+    this.authService.setRefreshToken(res.refresh_token, 1800);
+    this.patchState({tokenReceived: res.access_token, loggedIn: true});
   }
 
 }

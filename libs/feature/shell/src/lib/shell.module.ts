@@ -11,6 +11,8 @@ import {LayoutEffect, layoutFeatureKey, layoutReducer} from "@hello-spring-clien
 import {NavBarModule} from "@hello-spring-client/shared/ui/nav-bar";
 import {EffectsModule} from "@ngrx/effects";
 import {SkeletonModule} from "primeng/skeleton";
+import {ButtonModule} from "primeng/button";
+import {MenuModule} from "primeng/menu";
 
 export const shellRoutes: Route[] = [
   {
@@ -50,16 +52,18 @@ const rootReducers = {
 };
 
 @NgModule({
-    imports: [
-        CommonModule,
-        BrowserAnimationsModule,
-        RouterModule.forRoot(shellRoutes),
-        NavBarModule,
-        StoreModule.forRoot(rootReducers),
-        EffectsModule.forRoot([LayoutEffect]),
-        HttpClientModule,
-        SkeletonModule
-    ],
+  imports: [
+    CommonModule,
+    BrowserAnimationsModule,
+    RouterModule.forRoot(shellRoutes),
+    NavBarModule,
+    StoreModule.forRoot(rootReducers),
+    EffectsModule.forRoot([LayoutEffect]),
+    HttpClientModule,
+    SkeletonModule,
+    ButtonModule,
+    MenuModule
+  ],
   declarations: [
     ShellComponent
   ],

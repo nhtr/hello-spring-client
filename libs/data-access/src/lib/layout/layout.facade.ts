@@ -13,7 +13,11 @@ export class LayoutFacade {
   }
 
   loadMenu(): void {
-    this.store.dispatch(LayoutActions.loadMenu());
+    this.store.dispatch(LayoutActions.loadMenuTransformed());
+  }
+
+  loadGuestMenu(): void {
+    this.store.dispatch(LayoutActions.loadGuestMenu());
   }
 
   layoutClick(): void {

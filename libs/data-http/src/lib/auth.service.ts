@@ -21,7 +21,7 @@ export class AuthService {
   private readonly REFRESH_TOKEN_KEY = 'hsc_refresh_token';
   private readonly FIRST_REFRESH_TOKEN_KEY = 'hsc_frt';
   private readonly CODE_VERIFIER_KEY = 'hsc_code_verifier';
-  private readonly isPKCESupport = false;
+  private readonly isPKCESupport = true;
   private readonly codeChallengeMethod = 'S256';
 
   constructor(handler: HttpBackend) {
@@ -40,7 +40,7 @@ export class AuthService {
       const stateValue = this.generateState();
       const codeVerifier = this.generateCodeVerifier();
       const codeChallenge = this.generateCodeChallenge(codeVerifier);
-      this.setCookie(this.CODE_VERIFIER_KEY, codeVerifier, new Date(now.getTime() + 12000));
+      this.setCookie(this.CODE_VERIFIER_KEY, codeVerifier, new Date(now.getTime() + 120000));
       queryParamsObject = {
         ...queryParamsObject,
         state: stateValue,
@@ -104,14 +104,14 @@ export class AuthService {
    * @param expireIn: time expire of token, use second unit
    */
   setToken(token: string, expireIn: number): void {
-    this.deleteCookie(this.TOKEN_KEY);
+    // this.deleteCookie(this.TOKEN_KEY);
     const dateExpire = new Date();
     dateExpire.setTime(dateExpire.getTime() + (expireIn * 1000));
     // set first refresh token 80 percent live time of access token
     const timeRefreshToken = dateExpire.getTime() - (0.2 * expireIn * 1000);
     localStorage.setItem(this.FIRST_REFRESH_TOKEN_KEY, timeRefreshToken.toString());
     // set access token
-    this.setCookie(this.TOKEN_KEY, token, dateExpire);
+    // this.setCookie(this.TOKEN_KEY, token, dateExpire);
   }
 
   getFirstTimeRefreshToken(): number {
@@ -132,6 +132,10 @@ export class AuthService {
     const dateExpire = new Date();
     dateExpire.setTime(dateExpire.getTime() + (expireIn * 1000));
     this.setCookie(this.REFRESH_TOKEN_KEY, token, dateExpire);
+  }
+
+  clearToken() {
+    this.deleteCookie(this.REFRESH_TOKEN_KEY);
   }
 
   setCookie(cName: string, cValue: string, expireDate: Date): void {
