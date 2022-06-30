@@ -1,0 +1,35 @@
+<p-card header="Role list">
+  <p-table [value]="roles" [loading]="isLoading" [showLoader]="false">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th style="width: 10rem;">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-role>
+      <tr>
+        <td>{{role.name}}</td>
+        <td>{{role.description}}</td>
+        <td>
+          <button (click)="doViewFeatures(role.name)" pButton type="button" icon="pi pi-search"
+                  class="p-button-outlined p-button-sm"></button>
+          <button (click)="doEdit(role.name)" pButton type="button" icon="pi pi-pencil"
+                  class="p-button-outlined p-button-sm"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="loadingbody">
+      <tr>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+      </tr>
+      <tr>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

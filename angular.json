@@ -151,6 +151,31 @@
         }
       }
     },
+    "feature-role-management": {
+      "projectType": "library",
+      "root": "libs/feature/role-management",
+      "sourceRoot": "libs/feature/role-management/src",
+      "prefix": "hsc",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/feature/role-management"],
+          "options": {
+            "jestConfig": "libs/feature/role-management/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/feature/role-management/src/**/*.ts",
+              "libs/feature/role-management/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "feature-shell": {
       "projectType": "library",
       "root": "libs/feature/shell",
@@ -301,6 +326,31 @@
         }
       }
     },
+    "util-custom-operators": {
+      "projectType": "library",
+      "root": "libs/util/custom-operators",
+      "sourceRoot": "libs/util/custom-operators/src",
+      "prefix": "hello-spring-client",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/custom-operators"],
+          "options": {
+            "jestConfig": "libs/util/custom-operators/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/util/custom-operators/src/**/*.ts",
+              "libs/util/custom-operators/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "web-portal": {
       "projectType": "application",
       "root": "apps/web-portal",
@@ -328,9 +378,7 @@
               "apps/web-portal/src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": [
-              "crypto-js"
-            ]
+            "allowedCommonJsDependencies": ["crypto-js"]
           },
           "configurations": {
             "production": {

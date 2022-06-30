@@ -67,7 +67,10 @@ export class LayoutEffect {
         }
         if (res.context && Array.isArray(res.context.standalone)) {
           for (let i = 0; i < res.context.standalone.length; i++) {
-            menu.push(res.context.standalone[i] as NavItem);
+            const item = res.context.standalone[i];
+            if (item.showInMenu) {
+              menu.push(item as NavItem);
+            }
           }
         }
 

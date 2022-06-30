@@ -5,8 +5,8 @@ import {ComponentStore, tapResponse} from "@ngrx/component-store";
 import {map, switchMapTo, tap} from "rxjs/operators";
 
 export interface ProfileState {
-  apiStatus: ApiStatusEnum,
-  profile: UserProfile
+  apiStatus: ApiStatusEnum;
+  profile: UserProfile;
 }
 
 @Injectable({providedIn: 'root'})

@@ -1,0 +1,13 @@
+<div class="p-d-flex" *ngIf="vm$ | async as vm">
+  <div>
+    <hsc-role-list [roles]="vm.roles"
+                   [isLoading]="vm.isLoading"
+                   (editFeatureInRole)="doEditFeatureInRole($event)"
+                   (viewFeatureInRole)="showFeatureInRole($event)">
+    </hsc-role-list>
+  </div>
+  <p-divider layout="vertical"></p-divider>
+  <div>
+    <hsc-feature-list [features]="vm.features" [isLoading]="vm.isFeatureLoading"></hsc-feature-list>
+  </div>
+</div>

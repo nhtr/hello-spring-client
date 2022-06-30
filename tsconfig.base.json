@@ -27,6 +27,9 @@
       "@hello-spring-client/feature/public": [
         "libs/feature/public/src/index.ts"
       ],
+      "@hello-spring-client/feature/role-management": [
+        "libs/feature/role-management/src/index.ts"
+      ],
       "@hello-spring-client/feature/shell": ["libs/feature/shell/src/index.ts"],
       "@hello-spring-client/feature/system-config": [
         "libs/feature/system-config/src/index.ts"
@@ -40,7 +43,10 @@
       "@hello-spring-client/shared/ui/nav-item": [
         "libs/shared/ui/nav-item/src/index.ts"
       ],
-      "@hello-spring-client/util/auth": ["libs/util/auth/src/index.ts"]
+      "@hello-spring-client/util/auth": ["libs/util/auth/src/index.ts"],
+      "@hello-spring-client/util/custom-operators": [
+        "libs/util/custom-operators/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

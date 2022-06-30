@@ -45,6 +45,9 @@
     "feature-public": {
       "tags": []
     },
+    "feature-role-management": {
+      "tags": []
+    },
     "feature-shell": {
       "tags": []
     },
@@ -61,6 +64,9 @@
       "tags": []
     },
     "util-auth": {
+      "tags": []
+    },
+    "util-custom-operators": {
       "tags": []
     },
     "web-portal": {
